@@ -492,46 +492,6 @@
                 }
             }
         },
-        "usersList": {
-            "properties": [{
-                "firstName": {
-                    "required":true,
-                    "type": "string"
-                },
-                "lastName": {
-                    "required":true,
-                    "type": "string"
-                },
-                "username": {
-                    "required":true,
-                    "type": "string"
-                },
-                "email": {
-                    "required":true,
-                    "type": "string"
-                },
-                "password": {
-                    "required":true,
-                    "type": "string"
-                },
-                "country": {
-                    "required":true,
-                    "type": "string"
-                },
-                "phoneNumber": {
-                    "required":true,
-                    "type": "string"
-                },
-                "packageId": {
-                    "required":true,
-                    "type": "string"
-                },
-                "tenantId": {
-                    "required":true,
-                    "type": "string"
-                }
-            }]
-        },
         "category": {
             "properties": {
                 "name": {
