@@ -1,7 +1,12 @@
 const asyncHandler = require("../middlewares/asyncHander");
 const ErrorResponse = require("../utils/ErrorResponse");
+const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
+
+
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 
 // Create and Save a new Users
 exports.create = (req, res) => {
@@ -15,6 +20,7 @@ exports.create = (req, res) => {
         return;
     }
     // Save Users in the database
+    // req.body.password = bcrypt.hashSync(req.body.password, 8);
     User.create(req.body)
         .then(data => {
             res.send(
@@ -121,4 +127,42 @@ exports.deleteAll = (req, res) => {
                 message: err.message || "Some error occurred while removing all categories."
             });
         });
+};
+
+
+
+exports.signin = (req, res) => {
+    User.findOne({
+        username: req.body.username,
+        password: req.body.password
+    })
+    .exec((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+        if (!user) {
+            return res.status(404).send({ message: "Username or password wrong!" });
+        }
+        // var passwordIsValid = bcrypt.compareSync(
+        //     req.body.password,
+        //     user.password
+        // );
+
+        // if (!passwordIsValid) {
+        //     return res.status(401).send({
+        //         accessToken: null,
+        //         message: "Invalid Password!"
+        //     });
+        // }
+        var token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: 86400 // 24 hours
+        });
+        res.status(200).send({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            token: token
+        });
+    });
 };
