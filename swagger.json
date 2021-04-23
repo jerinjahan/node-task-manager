@@ -1,0 +1,344 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0", 
+        "title": "Task Manager",
+        "description": "https://centralized-auth-server.herokuapp.com/api",
+        "termsOfService": "http://swagger.io/terms/",
+        "license": {
+            "name": "Jerin Jahan",
+            "url": "https://centralized-auth-server.herokuapp.com"
+        }
+    },
+    "basePath": "/api",
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+        "/category/": {
+            "get": {
+                "tags": ["Category"],
+                "summary": "Get all category",
+                "description": "Endpoint to create new user.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Category"],
+                "summary": "Create new category",
+                "description": "Endpoint to create category.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Category Parameters",
+                        "in": "body",
+                        "description": "Category to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete all category",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {"description": "Category is deleted"},
+                    "404": {"description": "id not found"},
+                    "401": {"description": "Unauthorized"}
+                }
+            }
+        },
+        "/category/{categoryId}": {
+            "parameters": [
+                {
+                    "name": "categoryId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of category table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get category deatils with given categoryId",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {
+                    "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update category",
+                "tags": ["Category"],
+                "parameters": [
+                    {
+                        "name": "Category",
+                        "in": "body",
+                        "description": "Category details",
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category is updated",
+                        "schema": {
+                            "$ref": "#/definitions/category"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete category with given categoryId",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {"description": "Category is deleted"},
+                    "404": {"description": "id not found"},
+                    "401": {"description": "Unauthorized"}
+                }
+            }
+        }
+    },
+    "definitions": {
+        "singin": {
+            "properties": {
+                "username": {
+                    "required":true,
+                    "type": "string",
+                    "example": "admin"
+                },
+                "password": {
+                    "required":true,
+                    "type": "string",
+                    "example": "12345678"
+                }
+            }
+        },
+        "users": {
+            "properties": {
+                "firstName": {
+                    "required":true,
+                    "type": "string"
+                },
+                "lastName": {
+                    "required":true,
+                    "type": "string"
+                },
+                "username": {
+                    "required":true,
+                    "type": "string"
+                },
+                "email": {
+                    "required":true,
+                    "type": "string"
+                },
+                "password": {
+                    "required":true,
+                    "type": "string"
+                },
+                "country": {
+                    "required":true,
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "required":true,
+                    "type": "string"
+                },
+                "packageId": {
+                    "required":true,
+                    "type": "string"
+                },
+                "tenantId": {
+                    "required":true,
+                    "type": "string"
+                }
+            }
+        },
+        "usersList": {
+            "properties": [{
+                "firstName": {
+                    "required":true,
+                    "type": "string"
+                },
+                "lastName": {
+                    "required":true,
+                    "type": "string"
+                },
+                "username": {
+                    "required":true,
+                    "type": "string"
+                },
+                "email": {
+                    "required":true,
+                    "type": "string"
+                },
+                "password": {
+                    "required":true,
+                    "type": "string"
+                },
+                "country": {
+                    "required":true,
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "required":true,
+                    "type": "string"
+                },
+                "packageId": {
+                    "required":true,
+                    "type": "string"
+                },
+                "tenantId": {
+                    "required":true,
+                    "type": "string"
+                }
+            }]
+        },
+        "category": {
+            "properties": {
+                "name": {
+                    "required":true,
+                    "type": "string"
+                }
+            }
+        },
+        "usersGroupList": {
+            "properties": [{
+                "name": {
+                    "required":true,
+                    "type": "string"
+                },
+                "isActive": {
+                    "required":true,
+                    "type": "boolean"
+                }
+            }]
+        },
+        "response" : {
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "example" : true
+                },
+                "httpStatusCode" : {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string",
+                    "example" : "400 Bad Request"
+                }
+            }
+        },
+        "400error" : {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example" : "400 Bad Request"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        },
+        "api_key": {
+            "type": "apiKey",
+            "name": "secret_key",
+            "in": "header"
+        }
+    }
+}
