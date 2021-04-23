@@ -3,7 +3,7 @@
     "info": {
         "version": "1.0.0", 
         "title": "Task Manager",
-        "description": "https://centralized-auth-server.herokuapp.com/api",
+        "description": "https://node-task-manager-backend.herokuapp.com/api",
         "termsOfService": "http://swagger.io/terms/",
         "license": {
             "name": "Jerin Jahan",
