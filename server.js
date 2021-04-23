@@ -41,9 +41,8 @@ app.use(cors()); // Enable cors
 connectDB();
 
 // routes
-// require("./routes/auth.routes")(app);
-// require("./routes/user.routes")(app);
 app.use(router);
+// app.use("/api/v1/users", require("./routes/user.routes"));
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(errorHandler);
 

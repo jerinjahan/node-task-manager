@@ -7,7 +7,7 @@
         "termsOfService": "http://swagger.io/terms/",
         "license": {
             "name": "Jerin Jahan",
-            "url": "https://centralized-auth-server.herokuapp.com"
+            "url": "https://node-task-manager-backend.herokuapp.com"
         }
     },
     "basePath": "/api",
@@ -22,6 +22,110 @@
       "application/json"
     ],
     "paths": {
+        "/v1/users/": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Get all user",
+                "description": "Endpoint to create new user.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/users"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["User"],
+                "summary": "Create new category",
+                "description": "Endpoint to create category.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "User Parameters",
+                        "in": "body",
+                        "description": "User to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            }
+        },
         "/category/": {
             "get": {
                 "tags": ["Category"],
@@ -188,6 +292,173 @@
                     "401": {"description": "Unauthorized"}
                 }
             }
+        },
+        "/task/": {
+            "get": {
+                "tags": ["Task"],
+                "summary": "Get all task",
+                "description": "Endpoint to create new user.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Task"],
+                "summary": "Create new task",
+                "description": "Endpoint to create task.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Task Parameters",
+                        "in": "body",
+                        "description": "Task to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete all task",
+                "tags": ["Task"],
+                "responses": {
+                    "200": {"description": "Task is deleted"},
+                    "404": {"description": "id not found"},
+                    "401": {"description": "Unauthorized"}
+                }
+            }
+        },
+        "/task/{taskId}": {
+            "parameters": [
+                {
+                    "name": "taskId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of task table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get task deatils with given taskId",
+                "tags": ["Task"],
+                "responses": {
+                    "200": {
+                    "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update task",
+                "tags": ["Task"],
+                "parameters": [
+                    {
+                        "name": "Task",
+                        "in": "body",
+                        "description": "Task details",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Task is updated",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete task with given taskId",
+                "tags": ["Task"],
+                "responses": {
+                    "200": {"description": "Task is deleted"},
+                    "404": {"description": "id not found"},
+                    "401": {"description": "Unauthorized"}
+                }
+            }
         }
     },
     "definitions": {
@@ -207,14 +478,6 @@
         },
         "users": {
             "properties": {
-                "firstName": {
-                    "required":true,
-                    "type": "string"
-                },
-                "lastName": {
-                    "required":true,
-                    "type": "string"
-                },
                 "username": {
                     "required":true,
                     "type": "string"
@@ -224,22 +487,6 @@
                     "type": "string"
                 },
                 "password": {
-                    "required":true,
-                    "type": "string"
-                },
-                "country": {
-                    "required":true,
-                    "type": "string"
-                },
-                "phoneNumber": {
-                    "required":true,
-                    "type": "string"
-                },
-                "packageId": {
-                    "required":true,
-                    "type": "string"
-                },
-                "tenantId": {
                     "required":true,
                     "type": "string"
                 }
@@ -293,17 +540,40 @@
                 }
             }
         },
-        "usersGroupList": {
-            "properties": [{
+        "task": {
+            "properties": {
                 "name": {
                     "required":true,
                     "type": "string"
                 },
-                "isActive": {
+                "categoryId": {
                     "required":true,
-                    "type": "boolean"
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "required":true,
+                    "type": "string"
+                },
+                "reminderDate": {
+                    "required":true,
+                    "type": "string"
+                },
+                "status": {
+                    "required":true,
+                    "type": "integer"
+                },
+                "assignedBy": {
+                    "required":true,
+                    "type": "string"
+                },
+                "assignedTo": {
+                    "required":true,
+                    "type": "string"
                 }
-            }]
+            }
         },
         "response" : {
             "properties": {
