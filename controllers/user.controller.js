@@ -134,8 +134,7 @@ exports.deleteAll = (req, res) => {
 
 exports.signin = (req, res) => {
     User.findOne({
-        username: req.body.username,
-        password: req.body.password
+        username: req.body.username
     })
     .exec((err, user) => {
         if (err) {
