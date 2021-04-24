@@ -155,7 +155,14 @@ exports.signin = (req, res) => {
                 message: "Invalid Password!"
             });
         }
-        var token = jwt.sign({ id: user.id }, config.secret, {
+        let tokenGeneartionData = {
+            id: user._id,
+            username: user.username,
+            email: user.email
+        }
+        var token = jwt.sign(tokenGeneartionData, config.secret, {
+            algorithm: "HS512",
+            // expiresIn: process.env.ACCESS_TOKEN_LIFE
             expiresIn: 86400 // 24 hours
         });
         res.status(200).send({
