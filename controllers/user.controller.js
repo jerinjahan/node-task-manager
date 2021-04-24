@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         return;
     }
     // Save Users in the database
-    // req.body.password = bcrypt.hashSync(req.body.password, 8);
+    req.body.password = bcrypt.hashSync(req.body.password, 8);
     User.create(req.body)
         .then(data => {
             res.send(
@@ -45,6 +45,7 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
     console.log(res.params);
     const id = req.params.userId;
+    req.body.password = bcrypt.hashSync(req.body.password, 8);
     User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
         .then(data => {
             if (!data) {
@@ -144,17 +145,17 @@ exports.signin = (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "Username or password wrong!" });
         }
-        // var passwordIsValid = bcrypt.compareSync(
-        //     req.body.password,
-        //     user.password
-        // );
+        var passwordIsValid = bcrypt.compareSync(
+            req.body.password,
+            user.password
+        );
 
-        // if (!passwordIsValid) {
-        //     return res.status(401).send({
-        //         accessToken: null,
-        //         message: "Invalid Password!"
-        //     });
-        // }
+        if (!passwordIsValid) {
+            return res.status(401).send({
+                accessToken: null,
+                message: "Invalid Password!"
+            });
+        }
         var token = jwt.sign({ id: user.id }, config.secret, {
             expiresIn: 86400 // 24 hours
         });

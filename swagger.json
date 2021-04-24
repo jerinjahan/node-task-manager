@@ -22,6 +22,65 @@
       "application/json"
     ],
     "paths": {
+        "/signin/": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Sign in function",
+                "description": "Endpoint to signin.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "User Parameters",
+                        "in": "body",
+                        "description": "User to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/singin"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            }
+        },
         "/v1/users/": {
             "get": {
                 "tags": ["User"],
@@ -85,7 +144,7 @@
                         "description": "User to add to the database",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user"
+                            "$ref": "#/definitions/users"
                         }
                     }
                     
@@ -122,6 +181,39 @@
                             "schema": {
                                 "$ref": "#/definitions/400error"
                             }
+                    }
+                }
+            }
+        },
+        "/v1/users/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of users table",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "summary": "Update User",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "User",
+                        "in": "body",
+                        "description": "User details",
+                        "schema": {
+                            "$ref": "#/definitions/users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category is updated",
+                        "schema": {
+                            "$ref": "#/definitions/users"
+                        }
                     }
                 }
             }
