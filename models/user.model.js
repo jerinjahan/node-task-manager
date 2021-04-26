@@ -6,7 +6,9 @@ const User = mongoose.model(
         username: String,
         email: String,
         password: String
-    },{ timestamps: true })
+    },
+    { timestamps: true },
+    { toJSON: { virtuals: true }, toObject: { virtuals: true } })
 );
 
 module.exports = User;
