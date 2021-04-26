@@ -127,7 +127,7 @@ exports.deleteAll = (req, res) => {
 
 
 
-// Retrieve all Wordss from the database with pagination.
+// Retrieve all Category from the database with pagination.
 exports.findAll = (req, res) => {
     const { currentPage, itemPerPage } = req.query;
     const { limit, offset } = getPagination(currentPage, itemPerPage);

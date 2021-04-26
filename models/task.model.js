@@ -5,7 +5,7 @@ const Task = mongoose.model(
     new mongoose.Schema({
         // _id: mongoose.Schema.Types.ObjectId,
         name: String,
-        category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+        categoryId: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
         description: String,
         dueDate: Date,
         reminderDate: Date,
