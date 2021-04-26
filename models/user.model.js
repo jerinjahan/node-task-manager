@@ -7,10 +7,10 @@ const User = mongoose.model(
         email: String,
         password: String
     },
-    { 
-        toJSON: { virtuals: true }, 
-        toObject: { virtuals: true } 
-    }
+        {
+            toJSON: { virtuals: true },
+            toObject: { virtuals: true }
+        }
     )
 );
 

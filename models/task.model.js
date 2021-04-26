@@ -4,18 +4,18 @@ const Task = mongoose.model(
     "Task",
     new mongoose.Schema({
         name: String,
-        category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+        category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
         description: String,
         dueDate: Date,
         reminderDate: Date,
         status: Number,
-        assignedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        assignedTo: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+        assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
     },
-    { 
-        toJSON: { virtuals: true }, 
-        toObject: { virtuals: true } 
-    }
+        {
+            toJSON: { virtuals: true },
+            toObject: { virtuals: true }
+        }
     )
 );
 
