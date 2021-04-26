@@ -8,7 +8,7 @@ const User = mongoose.model(
         password: String
     },
     { timestamps: true },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } })
+    )
 );
 
 module.exports = User;

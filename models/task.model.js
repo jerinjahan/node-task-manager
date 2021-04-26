@@ -13,10 +13,10 @@ const Task = mongoose.model(
         assignedTo: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
     },
     { timestamps: true },
-    { 
-        toJSON: { virtuals: true }, 
-        toObject: { virtuals: true } 
-    }
+    // { 
+    //     toJSON: { virtuals: true }, 
+    //     toObject: { virtuals: true } 
+    // }
     )
 );
 
