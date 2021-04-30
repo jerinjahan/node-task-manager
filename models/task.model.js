@@ -10,7 +10,8 @@ const Task = mongoose.model(
         reminderDate: Date,
         status: Number,
         assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        subTasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SubTask' }],
     },
         {
             toJSON: { virtuals: true },

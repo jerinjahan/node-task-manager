@@ -2,15 +2,16 @@ const controller = require("../controllers/user.controller");
 const express = require('express');
 const router = express.Router();
 
+const users = require('./user.routes');
 const category = require('./category.routes');
 const task = require('./task.routes');
-const users = require('./user.routes');
-
-router.use('/api/category', category);
-router.use('/api/task', task);
-router.use('/api/v1/users', users);
+const subTasks = require('./sub-tasks.routes');
 
 router.use('/api/signin', controller.signin);
+router.use('/api/v1/users', users);
+router.use('/api/category', category);
+router.use('/api/task', task);
+router.use('/api/subTasks', subTasks);
 
 router.get('/', (req, res) => {
     res.json({ message: `Welcome To Task Manager Application` });

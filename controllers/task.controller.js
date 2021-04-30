@@ -1,8 +1,10 @@
+const asyncHandler = require("../middlewares/asyncHander");
 const db = require("../models");
 const Task = db.task;
+const SubTasks = db.subTasks;
 
 // Create and Save a new Words
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -12,45 +14,136 @@ exports.create = (req, res) => {
         });
         return;
     }
-    // Save task in the database
-    Task.create(req.body)
-        .then(data => {
+    // Save subTask in the database
+    let subTasksIds = [];
+    if(req.body.subTasks.length > 0){
+        try{
+            subTasksIds = await SubTasks.insertMany(req.body.subTasks);
+            req.body.subTasks = subTasksIds;
+            // Save task in the database
+            try{
+                const task = await Task.create(req.body);
+                res.send(
+                    {
+                        status: true,
+                        httpStatusCode: 201,
+                        message: "Task successfully created.",
+                        data: task
+                    }
+                );
+            }catch(err2){
+                res.status(500).send({
+                    status: false,
+                    httpStatusCode: 500,
+                    message:
+                        err2.message || "Some error occurred while creating the Task."
+                });
+            }
+        }catch(err){
+            res.status(500).send({
+                status: false,
+                httpStatusCode: 500,
+                message:
+                    err.message || "Some error occurred while creating the SubTasks."
+            });
+        }
+    }else{
+        try{
+            const task = await Task.create(req.body);
             res.send(
                 {
                     status: true,
                     httpStatusCode: 201,
                     message: "Task successfully created.",
-                    data: data
+                    data: task
                 }
             );
-        })
-        .catch(err => {
+        }catch(err){
             res.status(500).send({
                 status: false,
                 httpStatusCode: 500,
                 message:
                     err.message || "Some error occurred while creating the Task."
             });
-        });
+        }
+    }
 };
 // Update a Words by the id in the request
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            status: false,
+            httpStatusCode: 400,
+            message: "Content can not be empty!"
+        });
+        return;
+    }
+
     const id = req.params.taskId;
-    Task.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-        .then(data => {
+    let subTasksIds = [];
+    if(req.body.subTasks.length > 0){
+        try{
+            subTasksIds = await SubTasks.insertMany(req.body.subTasks);
+            req.body.subTasks = subTasksIds;
+            // Update task in the database
+            try{
+                const data = await Task.findByIdAndUpdate(id, req.body, { useFindAndModify: false });
+                if (!data) {
+                    res.status(404).send({
+                        status: false,
+                        message: `Cannot update Task with id=${id}. Maybe Tutorial was not found!`
+                    });
+                } else res.status(200).send({ status: true, message: "Task was updated successfully." });
+
+            }catch(err2){
+                res.status(500).send({
+                    status: false,
+                    message: err2.message || "Error updating Task with id=" + id
+                });
+            }
+        }catch(err){
+            res.status(500).send({
+                status: false,
+                httpStatusCode: 500,
+                message:
+                    err.message || "Some error occurred while creating the SubTasks."
+            });
+        }
+    }else{
+        try{
+            const data = await Task.findByIdAndUpdate(id, req.body, { useFindAndModify: false });
             if (!data) {
                 res.status(404).send({
                     status: false,
                     message: `Cannot update Task with id=${id}. Maybe Tutorial was not found!`
                 });
             } else res.status(200).send({ status: true, message: "Task was updated successfully." });
-        })
-        .catch(err => {
+
+        }catch(err){
             res.status(500).send({
                 status: false,
-                message: "Error updating Task with id=" + id
+                message: err.message || "Error updating Task with id=" + id
             });
-        });
+        }
+    }
+
+
+
+    // Task.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    //     .then(data => {
+    //         if (!data) {
+    //             res.status(404).send({
+    //                 status: false,
+    //                 message: `Cannot update Task with id=${id}. Maybe Tutorial was not found!`
+    //             });
+    //         } else res.status(200).send({ status: true, message: "Task was updated successfully." });
+    //     })
+    //     .catch(err => {
+    //         res.status(500).send({
+    //             status: false,
+    //             message: "Error updating Task with id=" + id
+    //         });
+    //     });
 };
 // Find a single Words with an id
 exports.findOne = (req, res) => {
@@ -72,10 +165,12 @@ exports.findOne = (req, res) => {
 exports.getAll = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { $regex: new RegExp(name), $options: "i" } } : {};
-    Task.find()
-        .populate('category')
-        .populate('assignedBy')
-        .populate('assignedTo')
+    Task.find({})
+        .populate('category',{'name':1})
+        .populate('subTasks',{'name':1,'status':1})
+        .populate('assignedBy',{'username':1})
+        .populate('assignedTo',{'username':1})
+        .select({ "name": 1, "description": 1, "dueDate": 1, "reminderDate": 1, "status": 1})
         .then(data => {
             res.status(200).json(data);
         })
