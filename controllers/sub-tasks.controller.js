@@ -107,7 +107,7 @@ exports.deleteSubtask = asyncHandler(async (req, res, next) => {
         );
     }
     try{
-        await SubTasks.findByIdAndDelete(req.params.subTaskId);
+        await SubTasks.findByIdAndDelete(req.params.id);
         res.status(200).json({ success: true, message: "Subtask was deleted successfully!" });
     }catch(err){
         res.status(500).send({
