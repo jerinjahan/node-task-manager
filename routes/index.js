@@ -1,3 +1,8 @@
+//#region for upload
+const uploadController = require("../controllers/upload.controller");
+const upload = require('../utils/multer');
+//#endregion
+
 const controller = require("../controllers/user.controller");
 const express = require('express');
 const router = express.Router();
@@ -12,6 +17,9 @@ router.use('/api/v1/users', users);
 router.use('/api/category', category);
 router.use('/api/task', task);
 router.use('/api/subTasks', subTasks);
+
+router.post('/api/upload', upload.single('image'), uploadController.uploadSingleFile);
+
 
 router.get('/', (req, res) => {
     res.json({ message: `Welcome To Task Manager Application` });
