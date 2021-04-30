@@ -551,6 +551,190 @@
                     "401": {"description": "Unauthorized"}
                 }
             }
+        },
+        "/subTasks/": {
+            "get": {
+                "tags": ["SubTasks"],
+                "summary": "Get all subTasks",
+                "description": "Endpoint to create new subTasks.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "properties":[{
+                                        "_id":{
+                                            "type": "string"
+                                        },
+                                        "name":{
+                                            "type": "string"
+                                        },
+                                        "status":{
+                                            "type": "boolean"
+                                        }
+                                    }]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
+                    },
+                    "500": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/500error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["SubTasks"],
+                "summary": "Create new sub tasks",
+                "description": "Endpoint to create sub tasks.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Sub Tasks Parameters",
+                        "in": "body",
+                        "description": "Sub tasks to add to the database",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "properties":[{
+                                "name":{
+                                    "type": "string"
+                                },
+                                "status":{
+                                    "type": "boolean"
+                                }
+                            }],
+                            "example": [{
+                                "name": "New task name",
+                                "status": true
+                            }]
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/response"
+                              }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                              "schema": {
+                                "$ref": "#/definitions/400error"
+                              }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    },
+                    "500": {
+                        "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/400error"
+                            }
+                    }
+                }
+            }
+        },
+        "/subTasks/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of subTasks table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get subTask deatils with given id",
+                "tags": ["SubTasks"],
+                "responses": {
+                    "200": {
+                    "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subTasks"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update subTasks",
+                "tags": ["SubTasks"],
+                "parameters": [
+                    {
+                        "name": "Sub Tasks",
+                        "in": "body",
+                        "description": "Sub Tasks details",
+                        "schema": {
+                            "type": "object",
+                            "properties":{
+                                
+                                "name":{
+                                    "type": "string"
+                                },
+                                "status":{
+                                    "type": "boolean"
+                                }
+                            },
+                            "example":{
+                                "name": "New task name",
+                                "status": true
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "subTasks is updated",
+                        "schema": {
+                            "$ref": "#/definitions/subTasks"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete subTasks with given id",
+                "tags": ["SubTasks"],
+                "responses": {
+                    "200": {"description": "Sub Tasks is deleted"},
+                    "404": {"description": "id not found"},
+                    "401": {"description": "Unauthorized"}
+                }
+            }
         }
     },
     "definitions": {
@@ -627,6 +811,15 @@
                 }
             }
         },
+        "subTasks":{
+            "name": {
+                "required":true,
+                "type": "string"
+            },
+            "status": {
+                "type": "boolean"
+            }
+        },
         "response" : {
             "properties": {
                 "status": {
@@ -647,6 +840,14 @@
                 "message": {
                     "type": "string",
                     "example" : "400 Bad Request"
+                }
+            }
+        },
+        "500error" : {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example" : "Internal Server Error"
                 }
             }
         }

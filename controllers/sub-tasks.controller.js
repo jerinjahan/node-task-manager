@@ -75,9 +75,8 @@ exports.updateSubtask = asyncHandler(async (req, res, next) => {
         });
         return;
     }
-    req.body.password = bcrypt.hashSync(req.body.password, 8);
     try{
-        const subTask = await SubTasks.findByIdAndUpdate(req.params.subTaskId, req.body, {
+        const subTask = await SubTasks.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,
         });
@@ -98,13 +97,13 @@ exports.updateSubtask = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Deletes subTask by id
-// @route   DELETE /api/subtasks./:id
+// @route   DELETE /api/subtasks/:id
 // @access  Private
 exports.deleteSubtask = asyncHandler(async (req, res, next) => {
-    const subTask = await SubTasks.findById(req.params.subTaskId);
+    const subTask = await SubTasks.findById(req.params.id);
     if (!subTask) {
         return next(
-            new ErrorResponse(`No such subTask with id ${req.params.subTaskId}`, 404)
+            new ErrorResponse(`No such subTask with id ${req.params.id}`, 404)
         );
     }
     try{

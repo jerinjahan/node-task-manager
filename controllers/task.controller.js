@@ -149,9 +149,11 @@ exports.update = async (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.taskId;
     Task.findById(id)
-        .populate('category')
-        .populate('assignedBy')
-        .populate('assignedTo')
+        .populate('category',{'name':1})
+        .populate('subTasks',{'name':1,'status':1})
+        .populate('assignedBy',{'username':1})
+        .populate('assignedTo',{'username':1})
+        .select({ "name": 1, "description": 1, "dueDate": 1, "reminderDate": 1, "status": 1})
         .then(data => {
             if (!data)
                 res.status(404).send({ message: "Not found Task with id " + id });
