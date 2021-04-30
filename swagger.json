@@ -448,7 +448,7 @@
                         "description": "Task to add to the database",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/task"
+                            "$ref" : "#/definitions/task"
                         }
                     }
                     
@@ -483,7 +483,7 @@
                     "500": {
                         "description": "OK",
                             "schema": {
-                                "$ref": "#/definitions/400error"
+                                "$ref": "#/definitions/500error"
                             }
                     }
                 }
@@ -528,8 +528,8 @@
                         "name": "Task",
                         "in": "body",
                         "description": "Task details",
-                        "schema": {
-                            "$ref": "#/definitions/task"
+                        "schema" : {
+                            "$ref" : "#/definitions/task"
                         }
                     }
                 ],
@@ -569,18 +569,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "properties":[{
-                                        "_id":{
-                                            "type": "string"
-                                        },
-                                        "name":{
-                                            "type": "string"
-                                        },
-                                        "status":{
-                                            "type": "boolean"
-                                        }
-                                    }]
+                                    "$ref": "#/definitions/subTaskArray"
                                 }
                             }
                         }
@@ -616,19 +605,7 @@
                         "description": "Sub tasks to add to the database",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "properties":[{
-                                "name":{
-                                    "type": "string"
-                                },
-                                "status":{
-                                    "type": "boolean"
-                                }
-                            }],
-                            "example": [{
-                                "name": "New task name",
-                                "status": true
-                            }]
+                            "$ref": "#/definitions/subTaskArray"
                         }
                     }
                     
@@ -808,16 +785,39 @@
                 "assignedTo": {
                     "required":true,
                     "type": "string"
+                },
+                "subTasks": {
+                    "type" : "array",
+                    "items": {
+                        "$ref" : "#/definitions/subTasks_inner"
+                    }
                 }
             }
         },
-        "subTasks":{
+        "subTask":{
             "name": {
                 "required":true,
                 "type": "string"
             },
             "status": {
                 "type": "boolean"
+            }
+        },
+        "subTaskArray" : {
+            "type" : "array",
+            "items" : {
+                "$ref" : "#/definitions/subTasks_inner"
+            }
+        },
+        "subTasks_inner" : {
+            "properties" : {
+                "name": {
+                    "required":true,
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
             }
         },
         "response" : {
