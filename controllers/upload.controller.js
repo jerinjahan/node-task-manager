@@ -1,5 +1,6 @@
 const cloudinary = require('cloudinary');
 const asyncHandler = require("../middlewares/asyncHander");
+const ObjectId = require("mongodb").ObjectID;
 const db = require("../models");
 const Files = db.files;
 
@@ -11,20 +12,18 @@ cloudinary.config({
 
 
 // Retrieve all files from the database based on taskId.
-exports.getAll = (req, res) => {
-    const taskId = req.query.taskId;
-    Files.find({})
-        .populate('taskId',{'name':1})
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving files."
-            });
+exports.getAll = asyncHandler(async (req, res) => {
+    const taskId = req.params.taskId;
+    try {
+        const data = await Files.find({taskId: new ObjectId(taskId)});
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving files."
         });
-};
+    }
+});
 
 exports.uploadSingleFile = asyncHandler(async (req, res, next) => {
     try {
