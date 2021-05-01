@@ -18,7 +18,9 @@ router.use('/api/category', category);
 router.use('/api/task', task);
 router.use('/api/subTasks', subTasks);
 
-router.post('/api/upload', upload.single('image'), uploadController.uploadSingleFile);
+router.post('/api/upload/:taskId', upload.single('image'), uploadController.uploadSingleFile);
+router.delete('/api/upload/:id', uploadController.deleteFile);
+router.get('/api/upload/:taskId', uploadController.getAll);
 
 
 router.get('/', (req, res) => {
