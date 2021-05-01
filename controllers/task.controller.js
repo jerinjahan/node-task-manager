@@ -1,4 +1,5 @@
 const asyncHandler = require("../middlewares/asyncHander");
+const subTaskController = require("./sub-tasks.controller");
 const db = require("../models");
 const Task = db.task;
 const SubTasks = db.subTasks;
@@ -221,6 +222,53 @@ exports.deleteAll = (req, res) => {
                 message: err.message || "Some error occurred while removing all categories."
             });
         });
+};
+
+// Add new subtasks a Words by the id in the request
+exports.addNewTask = async (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            status: false,
+            httpStatusCode: 400,
+            message: "Content can not be empty!"
+        });
+        return;
+    }
+    const id = req.params.taskId;
+    if(req.body.subTasks.length > 0){
+        try{
+            let subTasksIds = await SubTasks.insertMany(req.body.subTasks);
+            let preData = await Task.findById(id).populate('subTasks');
+            let subTasks = preData.subTasks.concat(subTasksIds);
+            let fieldToUpdate = {
+                subTasks: subTasks
+            };
+            // Update task in the database
+            try{
+                const data = await Task.findByIdAndUpdate(id, { $set: { ...fieldToUpdate } }, { useFindAndModify: false });
+                // const data = await User.findByIdAndUpdate(id, { $set: { ...fieldToUpdate } }, {runValidators: true,new: true});
+                if (!data) {
+                    res.status(404).send({
+                        status: false,
+                        message: `Cannot update Task with id=${id}. Maybe Tutorial was not found!`
+                    });
+                } else res.status(200).send({ status: true, message: "Task was updated successfully.",data : subTasksIds});
+
+            }catch(error){
+                res.status(500).send({
+                    status: false,
+                    message: error.message || "Error updating Task with id=" + id
+                });
+            }
+        }catch(err){
+            res.status(500).send({
+                status: false,
+                httpStatusCode: 500,
+                message:
+                    err.message || "Some error occurred while creating the SubTasks."
+            });
+        }
+    }
 };
 
 

@@ -1,5 +1,5 @@
 {
-    "name": "node-js-jwt-auth-mongodb",
+    "name": "node-js-jwt-auth-mongodb-task-manager",
     "version": "1.0.0",
     "description": "Node.js + MongoDB: JWT Authentication & Authorization",
     "main": "server.js",
