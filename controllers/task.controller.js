@@ -239,6 +239,7 @@ exports.findOne = async (req, res) => {
         const subTasks = await SubTasks.find({ taskId: new ObjectId(task._id) });
         let data = {
             _id : task._id,
+            id : task._id,
             name : task.name,
             category : task.category,
             description : task.description,
@@ -267,6 +268,7 @@ exports.getAll = async (req, res) => {
             const subTasks = await SubTasks.find({ taskId: new ObjectId(task._id) });
             data.push({
                 _id : task._id,
+                id : task._id,
                 name : task.name,
                 category : task.category,
                 description : task.description,
