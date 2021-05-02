@@ -5,7 +5,7 @@ const db = require("../models");
 const Task = db.task;
 const SubTasks = db.subTasks;
 
-// Create and Save a new Words
+// Create and Save a new Tasks
 exports.createOld = async (req, res) => {
     // Validate request
     if (!req.body) {
@@ -70,7 +70,7 @@ exports.createOld = async (req, res) => {
         }
     }
 };
-// Update a Words by the id in the request
+// Update a Tasks by the id in the request
 exports.updateOld = async (req, res) => {
     if (!req.body) {
         res.status(400).send({
@@ -200,7 +200,7 @@ exports.create = async (req, res) => {
         });
     }
 };
-// Update a Words by the id in the request
+// Update a Tasks by the id in the request
 exports.update = async (req, res) => {
     if (!req.body) {
         res.status(400).send({
@@ -227,7 +227,7 @@ exports.update = async (req, res) => {
         });
     }
 };
-// Find a single Words with an id
+// Find a single Tasks with an id
 exports.findOne = async (req, res) => {
     const id = req.params.taskId;
     try {
@@ -255,7 +255,7 @@ exports.findOne = async (req, res) => {
         res.status(500).send({ message: error.message || "Error retrieving Task with id=" + id });
     }
 };
-// Retrieve all Wordss from the database.
+// Retrieve all Tasks from the database.
 exports.getAll = async (req, res) => {
     try {
         let tasks = await Task.find({})
@@ -288,7 +288,75 @@ exports.getAll = async (req, res) => {
         });
     }
 };
-// Delete a Words with the specified id in the request
+// Retrieve all assigned to me Tasks from the database.
+exports.getAllAssignedToMe = async (req, res) => {
+    const id = req.params.userId;
+    try {
+        let tasks = await Task.find({ assignedTo: new ObjectId(id) })
+            .populate('category', { 'name': 1 })
+            .populate('assignedBy', { 'username': 1 })
+            .populate('assignedTo', { 'username': 1 })
+            .select({ "name": 1, "description": 1, "dueDate": 1, "reminderDate": 1, "status": 1 });
+        let data = [];
+        for (const task of tasks) {
+            const subTasks = await SubTasks.find({ taskId: new ObjectId(task._id) });
+            data.push({
+                _id : task._id,
+                id : task._id,
+                name : task.name,
+                category : task.category,
+                description : task.description,
+                dueDate : task.dueDate,
+                reminderDate : task.reminderDate,
+                status : task.status,
+                assignedBy : task.assignedBy,
+                assignedTo : task.assignedTo,
+                subTasks : subTasks
+            });
+        }
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving tasks."
+        });
+    }
+};
+// Retrieve all assigned by me Tasks from the database.
+exports.getAllAssignedByMe = async (req, res) => {
+    const id = req.params.userId;
+    try {
+        let tasks = await Task.find({ assignedTo: new ObjectId(id) })
+            .populate('category', { 'name': 1 })
+            .populate('assignedBy', { 'username': 1 })
+            .populate('assignedTo', { 'username': 1 })
+            .select({ "name": 1, "description": 1, "dueDate": 1, "reminderDate": 1, "status": 1 });
+        let data = [];
+        for (const task of tasks) {
+            const subTasks = await SubTasks.find({ taskId: new ObjectId(task._id) });
+            data.push({
+                _id : task._id,
+                id : task._id,
+                name : task.name,
+                category : task.category,
+                description : task.description,
+                dueDate : task.dueDate,
+                reminderDate : task.reminderDate,
+                status : task.status,
+                assignedBy : task.assignedBy,
+                assignedTo : task.assignedTo,
+                subTasks : subTasks
+            });
+        }
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving tasks."
+        });
+    }
+};
+// Delete a Tasks with the specified id in the request
 exports.delete = async (req, res) => {
     const id = req.params.taskId;
     try {
@@ -322,7 +390,7 @@ exports.deleteAll = (req, res) => {
         });
 };
 
-// Add new subtasks a Words by the id in the request
+// Add new subtasks a Tasks by the id in the request
 exports.addNewTask = async (req, res) => {
     if (!req.body) {
         res.status(400).send({
@@ -369,7 +437,7 @@ exports.addNewTask = async (req, res) => {
     }
 };
 
-// Retrieve all Wordss from the database with pagination.
+// Retrieve all Taskss from the database with pagination.
 exports.findAll = (req, res) => {
     const { currentPage, itemPerPage } = req.query;
     const { limit, offset } = getPagination(currentPage, itemPerPage);

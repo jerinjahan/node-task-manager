@@ -552,6 +552,52 @@
                 }
             }
         },
+        "/task/assignedToMe/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of task table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get task deatils with given userId",
+                "tags": ["Task"],
+                "responses": {
+                    "200": {
+                    "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                }
+            }
+        },
+        "/task/assignedByMe/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of task table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get task deatils with given userId",
+                "tags": ["Task"],
+                "responses": {
+                    "200": {
+                    "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/task"
+                        }
+                    }
+                }
+            }
+        },
         "/subTasks/": {
             "get": {
                 "tags": ["SubTasks"],
