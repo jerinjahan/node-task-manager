@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Files = mongoose.model(
     "Files",
     new mongoose.Schema({
-        original_filename: String,
+        name: String,
         public_id: String,
         width: String,
         height: String,
@@ -11,7 +11,7 @@ const Files = mongoose.model(
         resource_type: String,
         bytes: String,
         url: String,
-        secure_url: String,
+        thumbUrl: String,
         taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
     },{ toJSON: { virtuals: true }, toObject: { virtuals: true } })
 );

@@ -7,7 +7,8 @@ const SubTask = mongoose.model(
         status: {
             type: Boolean,
             default: true
-        }
+        },
+        taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' }
     },{ toJSON: { virtuals: true }, toObject: { virtuals: true } })
 );
 

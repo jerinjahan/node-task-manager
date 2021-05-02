@@ -50,7 +50,7 @@ exports.addSubtask = asyncHandler(async (req, res, next) => {
     }
     // Save Subtasks in the database
     try{
-        const subTask = await SubTasks.insertMany(req.body);
+        const subTask = await SubTasks.create(req.body);
         res.status(200).json({ success: true, data: subTask,message: "Subtask successfully created.", });
     }catch(err){
         res.status(500).send({

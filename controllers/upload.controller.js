@@ -29,7 +29,7 @@ exports.uploadSingleFile = asyncHandler(async (req, res, next) => {
     try {
         const result = await cloudinary.v2.uploader.upload(req.file.path);
         let fileData = new Files({
-            original_filename: result.original_filename,
+            name: result.original_filename,
             public_id: result.public_id,
             width: result.width,
             height: result.height,
@@ -37,7 +37,7 @@ exports.uploadSingleFile = asyncHandler(async (req, res, next) => {
             resource_type: result.resource_type,
             bytes: result.bytes,
             url: result.url,
-            secure_url: result.secure_url,
+            thumbUrl: result.secure_url,
             taskId: req.params.taskId
         });
 

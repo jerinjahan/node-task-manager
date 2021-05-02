@@ -605,7 +605,7 @@
                         "description": "Sub tasks to add to the database",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/subTaskArray"
+                            "$ref": "#/definitions/subTask"
                         }
                     }
                     
@@ -864,12 +864,17 @@
             }
         },
         "subTask":{
-            "name": {
-                "required":true,
-                "type": "string"
-            },
-            "status": {
-                "type": "boolean"
+            "properties":{
+                "name": {
+                    "required":true,
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "taskId": {
+                    "type": "string"
+                }
             }
         },
         "subTaskArray" : {
