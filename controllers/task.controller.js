@@ -210,6 +210,7 @@ exports.update = async (req, res) => {
         });
         return;
     }
+    const id = req.params.taskId;
     try {
         const data = await Task.findByIdAndUpdate(id, req.body, { useFindAndModify: false });
         if (!data) {

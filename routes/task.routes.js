@@ -4,7 +4,7 @@ const router = require("express").Router();
 router.get("", controller.getAll);
 router.get("/:taskId", controller.findOne);
 router.post("", controller.create);
-router.put("/:taskId",  controller.addNewTask);
+router.put("/:taskId",  controller.update);
 router.put("/addNewTask/:taskId",  controller.addNewTask);
 router.delete("/:taskId",  controller.delete);
 router.delete("/", controller.deleteAll);
