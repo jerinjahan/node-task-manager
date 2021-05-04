@@ -1,12 +1,10 @@
 require("dotenv").config({ path: "./config/config.env" });
 const express = require("express");
 const morgan = require("morgan");
-// const fileUpload = require("express-fileupload");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/errorHandler");
 const connectDB = require("./config/db");
-
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const xss = require("xss-clean");
@@ -37,12 +35,10 @@ app.use(limiter);
 app.use(hpp()); // Prevent http param polution
 app.use(cors()); // Enable cors
 
-
 connectDB();
 
 // routes
 app.use(router);
-// app.use("/api/v1/users", require("./routes/user.routes"));
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(errorHandler);
 
@@ -57,4 +53,5 @@ app.use("*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+const CHAT_PORT = process.env.CHAT_PORT || 3003;
 app.listen(PORT, console.log(`Server up in ${process.env.NODE_ENV} mode on port ${PORT}.`));
