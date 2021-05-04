@@ -1,11 +1,9 @@
-A web-based Task Manager app. It allows you to add tasks to a list, and update them. You can add extra information to the tasks, mark them as complete, set the priority level, and add a scheduled date. If you want, you can also delete tasks when you're done with them.
+This is a web-based Task Manager app. It allows you to add tasks with attachments to a list, and update them. You can add extra information to the tasks, mark them as complete, and add a scheduled date. If you want, you can also delete tasks when you're done with them. You can also assign a task to another app user.
 
-The app might be a little slow to open. This is because I'm using the free Heroku deployment plan, and the dyno may need a few seconds to wake up.
+User also able to  send message to another user for specific task with attachment.
 
-The front end uses React, and was set up using Create React App. I've written tests in Jest and Enzyme, and I've used Sass for the styling.
+Used Cloudinary for attachments and Firbase FCM for push notification.
 
-The tasks which you add and the updates which you make to them are stored in a PostgreSQL database, which means that everything you do is saved - i.e. changes you make in one session will be visible in the next session.
+The tasks which you add and the updates which you make to them are stored in a MongoDB database, which means that everything you do is saved - i.e. changes you make in one session will be visible in the next session.
 
-The Node.js backend uses Express.js and routes requests from the client to the database also hosted on Heroku. Data is fetched, added, updated and deleted using SQL queries.
-
-I've recently added sort functionality to the front end, so that you can now re-order the tasks depending on the created or scheduled date of the tasks.
+The Node.js backend uses Express.js, Model Sequelize(ORM) and routes requests from the client to the database also hosted on Heroku. Data is fetched, added, updated and deleted using  Model Sequelize(ORM) and alse used JWT for authorization.
